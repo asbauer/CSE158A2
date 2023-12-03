@@ -3,41 +3,6 @@ from collections import defaultdict
 import numpy as np
 
 
-#All recipes contains all the recipes from PP_recipes.csv as a dictionary that
-#takes in the recipeID as integers (not the tokenized ones and has the following
-#fields available: techniques, calories, ingredients
-#ie to access the ingredients for recipe # 424415 you'd use
-#allRecipes[424415]['ingredients']
-recipes = defaultdict(dict)
-
-
-with open("PP_recipes.csv") as allRecipes :
-    reader = csv.reader(allRecipes)
-    for d in reader:
-        if d[0] == "id" :
-            continue 
-        recipeID = int(d[0])
-        
-        #techniques = d[-3]
-        #calories = d[-2]
-        #ingredients = d[-1]
-        recipes[recipeID] = {
-            "tokenizedID" : int(d[1]) ,
-            "nameTokens" : d[2], 
-            "ingredientsTokens" : d[3],
-            "stepsTokens" : d[4],
-            "techniques" : d[5] ,
-            "calories" : d[6] ,
-            "ingredients" : d[7]
-            }
-            
-        
-
-
-if (len(recipes) == 178265) :
-    print("All recipes loaded successfully.")
-    #Kaggle says its 178265, profs site says 231,637
-
 def csv_to_list(file_name):
     d = []
     with open(file_name, newline='') as csv_file:
@@ -87,5 +52,65 @@ def calculateBaselines() :
     print("BL2 MSE: " , mse2) 
 
 
+#All recipes contains all the recipes from PP_recipes.csv as a dictionary that
+#takes in the recipeID as integers (not the tokenized ones and has the following
+#fields available: techniques, calories, ingredients
+#ie to access the ingredients for recipe # 424415 you'd use
+#allRecipes[424415]['ingredients']
+recipes = defaultdict(dict)
+
+
+with open("PP_recipes.csv") as allRecipes :
+    reader = csv.reader(allRecipes)
+    for d in reader:
+        if d[0] == "id" :
+            continue 
+        recipeID = int(d[0])
+        
+        #techniques = d[-3]
+        #calories = d[-2]
+        #ingredients = d[-1]
+        recipes[recipeID] = {
+            "tokenizedID" : int(d[1]) ,
+            "name_tokens" : d[2], 
+            "ingredients_tokens" : d[3],
+            "steps_tokens" : d[4],
+            "techniques" : d[5] ,
+            "calorie_level" : d[6] ,
+            "ingredients" : d[7]
+            }
+            
+        
+
+
+if (len(recipes) == 178265) :
+    print("All recipes loaded successfully.")
+    #Kaggle says its 178265, profs site says 231,637
+
+
+#Read in PP_users.csv and all its fields
+
+users = defaultdict(dict)
+
+
+with open("PP_users.csv") as allUsers :
+    reader = csv.reader(allUsers)
+    for d in reader:
+        if d[0] == "u" :
+            continue
+
+        tokenizedID = int(d[0])
+
+        users[tokenizedID] = {
+            "techniques" : d[1] ,
+            "items" : d[2] ,
+            "numItems" : d[3] ,
+            "ratings" : d[4] ,
+            "n_ratings" : d[5]
+            }
+            
+        
+       
+            
 
 
